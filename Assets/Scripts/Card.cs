@@ -6,16 +6,19 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    private Image _profile;
-    private TextMeshProUGUI _titleText;
+    private Image _cardProfile;
+    private Image _weaponProfile;
+
+    private TextMeshProUGUI _nameText;
     private TextMeshProUGUI _descText;
     private UpgradeData _upgradeData;
 
     private void Awake()
     {
-        _profile = GetComponent<Image>();
+        _cardProfile = GetComponent<Image>();
+        _weaponProfile = transform.Find("Profile").GetComponent<Image>();
 
-        _titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        _nameText = transform.Find("Name").GetComponent<TextMeshProUGUI>();
         _descText = transform.Find("Description").GetComponent<TextMeshProUGUI>();
     }
     public void SetStatusCardData(int key)
@@ -26,13 +29,12 @@ public class Card : MonoBehaviour
 
         Sprite sprite = Resources.Load<Sprite>(path);
 
-        _profile.sprite = sprite;
+        _cardProfile.sprite = sprite;
 
-        _titleText.text = _upgradeData.Name; 
+        _nameText.text = _upgradeData.Name; 
         _descText.text = $"{_upgradeData.DescPrefix} {(_upgradeData.Value * 100):0.#}% {_upgradeData.DescSuffix}";
     }
-
-    public void SetWeaponCardData(int key)
+    public void SetSkillCardData(int key)
     {
         string path = "Card/SkillCard";
 
@@ -40,9 +42,27 @@ public class Card : MonoBehaviour
 
         Sprite sprite = Resources.Load<Sprite>(path);
 
-        _profile.sprite = sprite;
+        _cardProfile.sprite = sprite;
 
-        _titleText.text = _upgradeData.Name;
+        _nameText.text = _upgradeData.Name;
+        _descText.text = $"{_upgradeData.DescPrefix} {(_upgradeData.Value * 100):0.#}% {_upgradeData.DescSuffix}";
+    }
+
+    public void SetWeaponCardData(int key)
+    {
+        string path = "Card/WeaponCard";
+
+        _upgradeData = DataManager.Instance.GetUpgradeData(key);
+
+        Sprite sprite = Resources.Load<Sprite>(path);
+
+        _cardProfile.sprite = sprite;
+
+        string weaponPath = "Card/" + _upgradeData.Type;
+        sprite = Resources.Load<Sprite>(weaponPath);
+        _weaponProfile.sprite = sprite;
+
+        _nameText.text = _upgradeData.Name;
         _descText.text = $"{_upgradeData.DescPrefix} {_upgradeData.DescSuffix}";
     }
 }
