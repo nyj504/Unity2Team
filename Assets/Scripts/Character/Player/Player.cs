@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -10,9 +11,7 @@ public class Player : MonoBehaviour
 
     public enum State
     {
-        Idle,
-        Walk,
-        Run,
+        Move,
         BaseAttack,
         Skill,
         Dead
@@ -22,9 +21,10 @@ public class Player : MonoBehaviour
 
     private State _curState;
 
-    private float _moveSpeed = 5.0f;
-    private float _rotateSpeed = 1.0f;
+    private CharacterData _characterData;
+    private float curHp;
 
+    private bool _isMoving;
     private Vector3 _velocity;
 
     private void Awake()
@@ -35,80 +35,76 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
+
+        _characterData.Key = DataManager.Instance.GetCharacterData(101).Key;
+
+        LoadPlayerData(_characterData.Key);
+
+        _curState = State.Move;
     }
     private void Update()
     {
         Control();
+        Move();
         UpdateAnimator();
+
+        if (Input.GetKeyDown(KeyCode.F1))
+            LoadPlayerData(_characterData.Key++);
     }
 
     private void Control()
     {
-        bool isMoving = Input.GetKey(KeyCode.W);
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-
-        Vector3 playerScreenPos = Camera.main.WorldToScreenPoint(transform.position);
-        Vector3 mouseScreenPos = Input.mousePosition;
-        Vector3 dir = mouseScreenPos - playerScreenPos;
-        float angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             _curState = State.BaseAttack;
+            _animator.Play("MagicAttack");
         }
-
-        switch (_curState)
+    }
+    private void Move()
+    {
+        if (_curState != State.Move)
         {
-            case State.Idle:
-                {
-                    if (isMoving)
-                    {
-                        _curState = isRunning ? State.Run : State.Walk;
-                    }
-                    _velocity = Vector3.zero;
-                }   
-                break;
-
-            case State.Walk:
-                {
-                    if (!isMoving)
-                    {
-                        _curState = State.Idle;
-                        _velocity = Vector3.zero;
-                        break;
-                    }
-                    if (isRunning)
-                    {
-                        _curState = State.Run;
-                        break;
-                    }
-                    _velocity = transform.forward * _moveSpeed;
-                    transform.position += _velocity * Time.deltaTime;
-                }
-                break;
-
-            case State.Run:
-                {
-                    if (!isMoving)
-                    {
-                        _curState = State.Idle;
-                        _velocity = Vector3.zero;
-                        break;
-                    }
-                    if (!isRunning)
-                    {
-                        _curState = State.Walk;
-                        break;
-                    }
-                    _velocity = transform.forward * _moveSpeed * 1.8f;
-                    transform.position += _velocity * Time.deltaTime;
-                } 
-                break;            
+            _velocity = Vector3.zero;
+            return;
         }
+
+        else
+        {
+            Vector3 playerScreenPos = Camera.main.WorldToScreenPoint(transform.position);
+            Vector3 mouseScreenPos = Input.mousePosition;
+            Vector3 dir = mouseScreenPos - playerScreenPos;
+            float angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            if(Input.GetKey(KeyCode.W))
+            {
+                _isMoving = true;
+                _velocity = transform.forward * _characterData.MoveSpeed;
+                transform.position += _velocity * Time.deltaTime;
+            }
+            else
+            {
+                _isMoving = false;
+                _velocity = Vector3.zero;
+            }
+        }  
+    }
+    private void LoadPlayerData(int key)
+    {
+        CharacterData data = DataManager.Instance.GetCharacterData(key);
+
+        _characterData.Level = data.Level;
+        _characterData.Exp = data.Exp;
+        _characterData.MaxHp = data.MaxHp;
+        _characterData.MoveSpeed = data.MoveSpeed;
+        _characterData.AttackSpeed = data.AttackSpeed;
     }
     private void UpdateAnimator()
     {
-        _animator.SetInteger("CurState", (int)_curState);
+        _animator.SetBool("IsMoving", _isMoving);
+    }
+    public void OnAnimationEnd()
+    {
+        _curState = State.Move;
     }
 }

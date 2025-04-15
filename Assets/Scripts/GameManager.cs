@@ -14,5 +14,6 @@ public class GameManager : MonoBehaviour
         _instance = this;
         
         DataManager.Instance.LoadUpgradeData();
+        DataManager.Instance.LoadCharacterData();
     }
 }

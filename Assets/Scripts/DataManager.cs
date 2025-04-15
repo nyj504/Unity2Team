@@ -3,7 +3,12 @@ using System.Collections.Generic;
 
 public struct CharacterData
 {
-   // Ã¤¿ì¸é µÊ 
+    public int Key;
+    public int Level;
+    public float Exp;
+    public float MaxHp;
+    public float MoveSpeed;
+    public float AttackSpeed;
 }
 
 public struct MonsterData
@@ -75,29 +80,29 @@ public class DataManager
 
     public void LoadCharacterData()
     {
-        //TextAsset textAsset = Resources.Load<TextAsset>("Tables/CatTable");
+        TextAsset textAsset = Resources.Load<TextAsset>("Tables/CharacterStatusTable");
 
-        //string text = textAsset.text;
-        //
-        //string[] rowData = text.Split("\r\n");
-        //
-        //for (int i = 1; i < rowData.Length; i++)
-        //{
-        //    if (rowData[i].Length == 0)
-        //        break;
-        //
-        //    string[] datas = rowData[i].Split(",");
-        //
-        //    CharacterData data;
-        //    data.Key = int.Parse(datas[0]);
-        //    data.Name = datas[1];
-        //    data.Attack = float.Parse(datas[2]);
-        //    data.MaxHp = float.Parse(datas[3]);
-        //    data.Speed = float.Parse(datas[4]);
-        //    data.Range = float.Parse(datas[5]);
-        //
-        //    _characterDatas.Add(data.Key, data);
-        //}
+        string text = textAsset.text;
+        
+        string[] rowData = text.Split("\r\n");
+        
+        for (int i = 1; i < rowData.Length; i++)
+        {
+            if (rowData[i].Length == 0)
+                break;
+        
+            string[] datas = rowData[i].Split(",");
+        
+            CharacterData data;
+            data.Key = int.Parse(datas[0]);
+            data.Level = int.Parse(datas[1]);
+            data.Exp = float.Parse(datas[2]);
+            data.MaxHp = float.Parse(datas[3]);
+            data.MoveSpeed = float.Parse(datas[4]);
+            data.AttackSpeed = float.Parse(datas[5]);
+        
+            _characterDatas.Add(data.Key, data);
+        }
     }
 
     public void LoadMonsterData()
