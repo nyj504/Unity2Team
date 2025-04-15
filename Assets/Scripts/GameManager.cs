@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviour
     {
         _instance = this;
         
-        //DataManager.Instance.LoadCharacterData();
-
+        DataManager.Instance.LoadUpgradeData();
     }
-
 }

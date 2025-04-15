@@ -15,6 +15,16 @@ public struct WeaponData
 {
     // Ã¤¿ì¸é µÊ 
 }
+
+public struct UpgradeData
+{
+    public int Key;
+    public string Name;
+    public string Type;
+    public float Value;
+    public string DescPrefix;
+    public string DescSuffix;
+}
 public class DataManager
 {
     private static DataManager _instance;
@@ -50,10 +60,18 @@ public class DataManager
         get { return _weaponDatas; }
     }
 
+    private Dictionary<int, UpgradeData> _upgradeDatas = new Dictionary<int, UpgradeData>();
+    public Dictionary<int, UpgradeData> UpgradeDatas
+    {
+        get { return _upgradeDatas; }
+    }
+
+
 
     public CharacterData GetCharacterData(int key) { return _characterDatas[key]; }
     public MonsterData GetMonsterData(int key) { return _monsterDatas[key]; }
     public WeaponData GetWeaponData(int key) { return _weaponDatas[key]; }
+    public UpgradeData GetUpgradeData(int key) { return _upgradeDatas[key]; }
 
     public void LoadCharacterData()
     {
@@ -134,5 +152,32 @@ public class DataManager
         //
         //    _characterDatas.Add(data.Key, data);
         //}
+    }
+
+    public void LoadUpgradeData()
+    {
+        TextAsset textAsset = Resources.Load<TextAsset>("Tables/UpgradeTable");
+
+        string text = textAsset.text;
+        
+        string[] rowData = text.Split("\r\n");
+        
+        for (int i = 1; i < rowData.Length; i++)
+        {
+            if (rowData[i].Length == 0)
+                break;
+        
+            string[] datas = rowData[i].Split(",");
+        
+            UpgradeData data;
+            data.Key = int.Parse(datas[0]);
+            data.Name = datas[1];
+            data.Type = datas[2];
+            data.Value = float.Parse(datas[3]);
+            data.DescPrefix = datas[4];
+            data.DescSuffix = datas[5];
+        
+            _upgradeDatas.Add(data.Key, data);
+        }
     }
 }
