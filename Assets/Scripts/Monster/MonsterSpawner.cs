@@ -44,7 +44,7 @@ public class MonsterSpawner : MonoBehaviour
         do
         {
             Vector2 _randomDirection = Random.insideUnitSphere.normalized * _spawnRange;
-            _spawnPosition = new Vector3(_randomDirection.x, 0, _randomDirection.y) + transform.position;
+            _spawnPosition = new Vector3(_randomDirection.x, 0, _randomDirection.y);
 
             Vector3 _viewportPosition = _mainCamera.WorldToViewportPoint(_spawnPosition);
             _isOutside = _viewportPosition.x < 0 - _cameraBuffer || _viewportPosition.x > 1 + _cameraBuffer ||

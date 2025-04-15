@@ -36,9 +36,9 @@ public class Player : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
 
-        _characterData.Key = DataManager.Instance.GetCharacterData(101).Key;
-
-        LoadPlayerData(_characterData.Key);
+        //_characterData.Key = DataManager.Instance.GetCharacterData(101).Key;
+        //
+        //LoadPlayerData(_characterData.Key);
 
         _curState = State.Move;
     }

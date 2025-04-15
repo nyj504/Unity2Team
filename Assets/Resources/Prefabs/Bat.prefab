@@ -80,7 +80,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d43e5cfa2276e447891e57c3e4733e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
+  Player: {fileID: 5474243533852252642, guid: c454621f76adb9b4ba457727452ca5dd, type: 3}
+  _speed: 3
+  _stopDistance: 1
 --- !u!95 &7278154448835519824
 Animator:
   serializedVersion: 7
