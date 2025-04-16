@@ -16,6 +16,11 @@ public class Player : MonoBehaviour
     private State _curState;
 
     private CharacterData _characterData;
+    public CharacterData GetPlayerData
+    {
+        get { return _characterData; }
+    }
+
     private float _curHp;
     private float _life;
 
@@ -45,8 +50,20 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            UIManager.Instance.OpenChoiceUI();
+            //UIManager.Instance.OpenChoiceUI();
             LoadPlayerData(_characterData.Key++);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SetWeapon(501);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SetWeapon(502);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SetWeapon(503);
         }
     }
 
