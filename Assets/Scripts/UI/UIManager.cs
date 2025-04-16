@@ -1,14 +1,19 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using static UnityEngine.Analytics.IAnalytic;
 
 public class UIManager : MonoBehaviour
 {
     private bool _isFirstChoice = true;
     private int _selectedWeaponID;
-    
+    private int _waveIndex = 0;
+  
     private GameObject _choicePanel;
     private GameObject _guiPanel;
+    private GameObject _playerGUI;
+    private TextMeshProUGUI _waveCount;
 
     private static UIManager _instance;
     public static UIManager Instance
@@ -21,7 +26,9 @@ public class UIManager : MonoBehaviour
         _instance = this;
         _choicePanel = transform.Find("ChoicePanel").gameObject;
         _guiPanel = transform.Find("PlayerGUI").gameObject;
+        _waveCount = transform.Find("WaveCount").GetComponent<TextMeshProUGUI>();
 
+        GetComponentInChildren<PlayerGUI>(_playerGUI);
         GetComponentsInChildren<Card>(_cards);
         _choicePanel.SetActive(false);
     }
@@ -30,6 +37,10 @@ public class UIManager : MonoBehaviour
     {
     }
 
+    private void Update()
+    {
+        ShowWaveCount();
+    }
     public void OpenChoiceUI()
     {
         _choicePanel.SetActive(true);
@@ -43,6 +54,11 @@ public class UIManager : MonoBehaviour
         {
             SetStatusCard();
         }
+    }
+
+    public void ShowWaveCount()
+    {
+        _waveCount.text = $"<color=red>Wave:</color> {_waveIndex}";
     }
 
     private void SetStatusCard()
@@ -66,6 +82,7 @@ public class UIManager : MonoBehaviour
                 GameManager.PlayerInstance.EnhancePlayerStatus(randKey);
 
                 _choicePanel.SetActive(false);
+                _waveIndex++;
             };
         }
     }
@@ -93,6 +110,7 @@ public class UIManager : MonoBehaviour
                 GameManager.Instance.SetPlayerWeapon(id);
 
                 _choicePanel.SetActive(false);
+                _waveIndex++;
             };
         }
     }

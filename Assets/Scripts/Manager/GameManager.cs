@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public bool isGameStart = false;
     private static GameManager _instance;
 
     public static GameManager Instance
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayerWeapon(int key)
     {
+        isGameStart = true;
         PlayerInstance.SetWeapon(key);
     }
 }

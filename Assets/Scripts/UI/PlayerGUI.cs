@@ -3,18 +3,30 @@ using UnityEngine;
 
 public class PlayerGUI : MonoBehaviour
 {
-    private TextMeshPro _playerGUIText;
+    private TextMeshProUGUI _playerGUIText;
 
     private void Awake()
     {
-        _playerGUIText = GetComponent<TextMeshPro>();
+        _playerGUIText = GetComponent<TextMeshProUGUI>();
     }
 
-    public void SetPlayerStatus(CharacterData characterData)
+    private void Update()
     {
-    //    _playerGUIText.text =
-    //        $"<color=red>HP: {characterData.MaxHp}</color> {characterData.MaxHp} \n" + 
-    //        $"<color=green>ATK: {characterData.Attack}</color>\n" +
-    //        $"<color=blue>DEF: {def}</color>";
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            UIManager.Instance.OpenChoiceUI();
+        }
+
+        if (GameManager.Instance.isGameStart)
+            SetStatus();
+    }
+
+    public void SetStatus()
+    {
+        CharacterData guiData = GameManager.PlayerInstance.GetPlayerData;
+        _playerGUIText.text =
+             $"<color=red>HP:</color> {guiData.MaxHp} / {guiData.MaxHp}\n" +
+             $"<color=yellow>ATK:</color> {guiData.AttackPower}\n" +
+             $"<color=green>DEX:</color> {guiData.MoveSpeed}";
     }
 }
