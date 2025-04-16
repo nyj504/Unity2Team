@@ -67,6 +67,7 @@ public class UIManager : MonoBehaviour
 
         for (int i = 0; i < _cards.Count; i++)
         {
+            _cards[i].onClickWeaponCard = null;
             int randKey;
             do
             {
@@ -79,6 +80,7 @@ public class UIManager : MonoBehaviour
 
             _cards[i].onClickStatusCard = () =>
             {
+                Debug.Log("StatusCard");
                 GameManager.PlayerInstance.EnhancePlayerStatus(randKey);
 
                 _choicePanel.SetActive(false);
@@ -105,6 +107,7 @@ public class UIManager : MonoBehaviour
 
             _cards[i].onClickWeaponCard = () =>
             {
+                Debug.Log("WeaponCard");
                 _selectedWeaponID = id;
           
                 GameManager.Instance.SetPlayerWeapon(id);

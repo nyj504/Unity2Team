@@ -53,18 +53,18 @@ public class Player : MonoBehaviour
             //UIManager.Instance.OpenChoiceUI();
             LoadPlayerData(_characterData.Key++);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SetWeapon(501);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SetWeapon(502);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SetWeapon(503);
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    SetWeapon(501);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    SetWeapon(502);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    SetWeapon(503);
+        //}
     }
 
     private void Control()
