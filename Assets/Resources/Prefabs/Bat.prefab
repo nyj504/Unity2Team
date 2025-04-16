@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bat
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9cbca15fca8ba4d4fbddec1742291dd7, type: 3}
+      propertyPath: m_TagString
+      value: Monster
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -86,6 +90,8 @@ MonoBehaviour:
   _speed: 3
   _stopDistance: 1
   _lifeTime: 5
+  pushRadius: 1
+  pushStrength: 2
 --- !u!95 &7278154448835519824
 Animator:
   serializedVersion: 7
@@ -115,7 +121,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1080511283741638766}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: f3738546a8055b14f8432a68286c1049, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -127,5 +133,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.25
+  m_Center: {x: 0, y: 0.2, z: 0}

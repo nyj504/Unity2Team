@@ -69,11 +69,11 @@ public class Player : MonoBehaviour
 
     private void Control()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            _curState = State.BaseAttack;
-            _animator.Play("MagicAttack");
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    _curState = State.BaseAttack;
+        //    _animator.Play("MagicAttack");
+        //}
     }
     private void Move()
     {
@@ -139,6 +139,8 @@ public class Player : MonoBehaviour
             _playerWeapon.transform.localPosition = new Vector3(weaponData.PosX, weaponData.PosY, weaponData.PosZ);
             _playerWeapon.transform.localRotation = Quaternion.Euler(weaponData.RotX, weaponData.RotY, weaponData.RotZ);
         }
+
+        _animator.SetTrigger(weaponData.Name);
     }
 
     public void EnhancePlayerStatus(int key)
