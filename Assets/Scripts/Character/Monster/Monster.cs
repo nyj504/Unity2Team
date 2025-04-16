@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    private Player _player;
+    private GameObject _player;
     [SerializeField]
     private float _speed = 3.0f;
     [SerializeField]
@@ -10,7 +10,7 @@ public class Monster : MonoBehaviour
 
     private void Start()
     {
-        _player = Player.Instance;
+        _player = GameManager.Instance._playerInstance;
     }
     void Update()
     {

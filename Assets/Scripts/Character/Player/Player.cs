@@ -3,12 +3,6 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    private static Player _instance;
-    public static Player Instance
-    {
-        get { return _instance; }
-    }
-
     public enum State
     {
         Move,
@@ -26,11 +20,6 @@ public class Player : MonoBehaviour
 
     private bool _isMoving;
     private Vector3 _velocity;
-
-    private void Awake()
-    {
-        _instance = this;
-    }
 
     private void Start()
     {
