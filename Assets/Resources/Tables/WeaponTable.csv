@@ -1,4 +1,4 @@
-Key,Name,PosX,PosY,PosZ,RotX,RotY,RotZ,PrefabPath
-501,Grimoire,0,0,0,0,0,0,Prefabs/MagicBook
-502,GreatSword,0,0,0,0,0,0,Prefabs/GreatSword
-503,Shotgun,0.114,0.05,-0.039,174.161,-77.91699,68.481,Prefabs/ShotGun
+Key,Type,Name,PosX,PosY,PosZ,RotX,RotY,RotZ,PrefabPath
+501,1,Grimoire,0.259,0.035,0,2.786,-103.212,82.382,Prefabs/MagicBook
+502,2,GreatSword,-1.33,0.545,-0.85,108.572,62.385,77.904,Prefabs/GreatSword
+503,3,Shotgun,0.062,0.045,0.002,-11.092,84.381,-86.415,Prefabs/ShotGun

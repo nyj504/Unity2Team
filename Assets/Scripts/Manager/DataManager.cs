@@ -14,6 +14,7 @@ public struct CharacterData
 public struct WeaponData
 {
     public int Key;
+    public int Type;
     public string Name;
     public float PosX;
     public float PosY;
@@ -144,14 +145,15 @@ public class DataManager
 
             WeaponData data;
             data.Key = int.Parse(datas[0]);
-            data.Name = datas[1];
-            data.PosX = float.Parse(datas[2]);
-            data.PosY = float.Parse(datas[3]);
-            data.PosZ = float.Parse(datas[4]);
-            data.RotX = float.Parse(datas[5]);
-            data.RotY = float.Parse(datas[6]);
-            data.RotZ = float.Parse(datas[7]);
-            data.PrefabPath = datas[8];
+            data.Type = int.Parse(datas[1]);
+            data.Name = datas[2];
+            data.PosX = float.Parse(datas[3]);
+            data.PosY = float.Parse(datas[4]);
+            data.PosZ = float.Parse(datas[5]);
+            data.RotX = float.Parse(datas[6]);
+            data.RotY = float.Parse(datas[7]);
+            data.RotZ = float.Parse(datas[8]);
+            data.PrefabPath = datas[9];
 
             _weaponDatas.Add(data.Key, data);
         }
