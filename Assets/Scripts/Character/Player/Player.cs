@@ -22,12 +22,17 @@ public class Player : MonoBehaviour
     private bool _isMoving;
     private Vector3 _velocity;
 
+    [SerializeField] 
+    private Transform _weaponSocket;
+    private GameObject _playerWeapon;
+    private WeaponData _weaponData;
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
 
         _characterData.Key = DataManager.Instance.GetCharacterData(101).Key;
-        
+
         LoadPlayerData(_characterData.Key);
 
         _curState = State.Move;
@@ -87,7 +92,7 @@ public class Player : MonoBehaviour
         CharacterData data = DataManager.Instance.GetCharacterData(key);
 
         _characterData.Level = data.Level;
-        _characterData.Exp = data.Exp;
+        _characterData.AttackPower = data.AttackPower;
         _characterData.MaxHp = data.MaxHp;
         _characterData.MoveSpeed = data.MoveSpeed;
         _characterData.AttackSpeed = data.AttackSpeed;
@@ -101,19 +106,37 @@ public class Player : MonoBehaviour
         _curState = State.Move;
     }
 
+    public void SetWeapon(int key)
+    {
+        WeaponData weaponData = DataManager.Instance.GetWeaponData(key);
+
+        GameObject prefab = Resources.Load<GameObject>(weaponData.PrefabPath);
+        if (prefab != null)
+        {
+            if (_playerWeapon != null)
+            {
+                Destroy(_playerWeapon);
+            }
+
+            _playerWeapon = Instantiate(prefab, _weaponSocket);
+            _playerWeapon.transform.localPosition = new Vector3(weaponData.PosX, weaponData.PosY, weaponData.PosZ);
+            _playerWeapon.transform.localRotation = Quaternion.Euler(weaponData.RotX, weaponData.RotY, weaponData.RotZ);
+        }
+    }
+
     public void EnhancePlayerStatus(int key)
     {
         UpgradeData upgradeData = DataManager.Instance.GetUpgradeData(key);
         if (upgradeData.Type == "AttackPower")
         {
-            //_characterData.AttackPower += upgradeData.Value; // 이거 있음?
+            _characterData.AttackPower += upgradeData.Value;
         }
         else if (upgradeData.Type == "MoveSpeed")
             _characterData.MoveSpeed += upgradeData.Value;
         else if (upgradeData.Type == "AttackSpeed")
             _characterData.AttackSpeed += upgradeData.Value;
         //else if (upgradeData.Type == "Money")
-        //    _characterData.MoneyGain += upgradeData.Value;
+        //   _characterData.MoneyGain += upgradeData.Value;
         else if (upgradeData.Type == "MaxHP")
         {
             _characterData.MaxHp += upgradeData.Value;

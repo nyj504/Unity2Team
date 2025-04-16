@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
         
         DataManager.Instance.LoadUpgradeData();
         DataManager.Instance.LoadCharacterData();
+        DataManager.Instance.LoadWeaponData();
+        DataManager.Instance.LoadSkillData();
 
         SpawnPlayer();
     }
@@ -30,8 +32,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetPlayerWeapon()
+    public void SetPlayerWeapon(int key)
     {
-        
+        PlayerInstance.SetWeapon(key);
     }
 }
