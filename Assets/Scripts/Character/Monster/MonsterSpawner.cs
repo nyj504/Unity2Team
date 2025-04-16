@@ -15,6 +15,7 @@ public class MonsterSpawner : MonoBehaviour
     void Start()
     {
         _mainCamera = Camera.main;
+        PoolingManager.Instance.CreatePool("MonsterPool", MonsterPrefab, _spawnCount * 2);
     }
 
     void Update()
@@ -31,26 +32,29 @@ public class MonsterSpawner : MonoBehaviour
     {
         for (int i = 0; i < _spawnCount; i++)
         {
-            Vector3 _spawnPosition = GetSpawnPosition();
-            Instantiate(MonsterPrefab, _spawnPosition, Quaternion.identity);
+            Vector3 spawnPosition = GetSpawnPosition();
+
+            GameObject monster = PoolingManager.Instance.Pop("MonsterPool");
+            monster.transform.position = spawnPosition;
+            monster.transform.rotation = Quaternion.identity;
         }
     }
 
     private Vector3 GetSpawnPosition()
     {
-        Vector3 _spawnPosition;
+        Vector3 spawnPosition;
         bool _isOutside = false;
 
         do
         {
             Vector2 _randomDirection = Random.insideUnitSphere.normalized * _spawnRange;
-            _spawnPosition = new Vector3(_randomDirection.x, 0, _randomDirection.y);
+            spawnPosition = new Vector3(_randomDirection.x, 0, _randomDirection.y);
 
-            Vector3 _viewportPosition = _mainCamera.WorldToViewportPoint(_spawnPosition);
+            Vector3 _viewportPosition = _mainCamera.WorldToViewportPoint(spawnPosition);
             _isOutside = _viewportPosition.x < 0 - _cameraBuffer || _viewportPosition.x > 1 + _cameraBuffer ||
                          _viewportPosition.y < 0 - _cameraBuffer || _viewportPosition.y > 1 + _cameraBuffer;
         } while (_isOutside);
 
-        return _spawnPosition;
+        return spawnPosition;
     }
 }
