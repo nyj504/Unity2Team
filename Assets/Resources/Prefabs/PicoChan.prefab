@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085d0e0a712cb9c40863e24c30bf26df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponSocket: {fileID: 3257790665911091559}
 --- !u!95 &3957029357636665424
 Animator:
   serializedVersion: 7
@@ -130,6 +131,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10038fdbf93c4dd43af9ce774d03a956, type: 3}
+--- !u!4 &3257790665911091559 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7892078836406106428, guid: 10038fdbf93c4dd43af9ce774d03a956, type: 3}
+  m_PrefabInstance: {fileID: 4561103283998164899}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4091223634317238344 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 10038fdbf93c4dd43af9ce774d03a956, type: 3}

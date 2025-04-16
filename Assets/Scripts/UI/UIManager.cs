@@ -90,7 +90,7 @@ public class UIManager : MonoBehaviour
             {
                 _selectedWeaponID = id;
           
-                GameManager.Instance.SetPlayerWeapon();
+                GameManager.Instance.SetPlayerWeapon(id);
 
                 _choicePanel.SetActive(false);
             };

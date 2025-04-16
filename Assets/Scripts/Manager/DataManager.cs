@@ -5,10 +5,23 @@ public struct CharacterData
 {
     public int Key;
     public int Level;
-    public float Exp;
+    public float AttackPower;
     public float MaxHp;
     public float MoveSpeed;
     public float AttackSpeed;
+}
+
+public struct WeaponData
+{
+    public int Key;
+    public string Name;
+    public float PosX;
+    public float PosY;
+    public float PosZ;
+    public float RotX;
+    public float RotY;
+    public float RotZ;
+    public string PrefabPath;
 }
 
 public struct MonsterData
@@ -16,9 +29,12 @@ public struct MonsterData
     // Ã¤¿ì¸é µÊ 
 }
 
-public struct WeaponData
+public struct SkillData
 {
-    // Ã¤¿ì¸é µÊ 
+    public int Key;
+    public string Name;
+    public float AttackRatio;
+    public string SkillImagePath;
 }
 
 public struct UpgradeData
@@ -53,16 +69,22 @@ public class DataManager
         get { return _characterDatas; }
     }
 
+    private Dictionary<int, WeaponData> _weaponDatas = new Dictionary<int, WeaponData>();
+    public Dictionary<int, WeaponData> WeaponDatas
+    {
+        get { return _weaponDatas; }
+    }
+
     private Dictionary<int, MonsterData> _monsterDatas = new Dictionary<int, MonsterData>();
     public Dictionary<int, MonsterData> MonsterDatas
     {
         get { return _monsterDatas; }
     }
 
-    private Dictionary<int, WeaponData> _weaponDatas = new Dictionary<int, WeaponData>();
-    public Dictionary<int, WeaponData> WeaponDatas
+    private Dictionary<int, SkillData> _skillDatas = new Dictionary<int, SkillData>();
+    public Dictionary<int, SkillData> SkillDatas
     {
-        get { return _weaponDatas; }
+        get { return _skillDatas; }
     }
 
     private Dictionary<int, UpgradeData> _upgradeDatas = new Dictionary<int, UpgradeData>();
@@ -74,8 +96,9 @@ public class DataManager
 
 
     public CharacterData GetCharacterData(int key) { return _characterDatas[key]; }
-    public MonsterData GetMonsterData(int key) { return _monsterDatas[key]; }
     public WeaponData GetWeaponData(int key) { return _weaponDatas[key]; }
+    public MonsterData GetMonsterData(int key) { return _monsterDatas[key]; }
+    public SkillData GetSkillData(int key) { return _skillDatas[key]; }
     public UpgradeData GetUpgradeData(int key) { return _upgradeDatas[key]; }
 
     public void LoadCharacterData()
@@ -96,12 +119,41 @@ public class DataManager
             CharacterData data;
             data.Key = int.Parse(datas[0]);
             data.Level = int.Parse(datas[1]);
-            data.Exp = float.Parse(datas[2]);
+            data.AttackPower = float.Parse(datas[2]);
             data.MaxHp = float.Parse(datas[3]);
             data.MoveSpeed = float.Parse(datas[4]);
             data.AttackSpeed = float.Parse(datas[5]);
         
             _characterDatas.Add(data.Key, data);
+        }
+    }
+    public void LoadWeaponData()
+    {
+        TextAsset textAsset = Resources.Load<TextAsset>("Tables/WeaponTable");
+
+        string text = textAsset.text;
+
+        string[] rowData = text.Split("\r\n");
+
+        for (int i = 1; i < rowData.Length; i++)
+        {
+            if (rowData[i].Length == 0)
+                break;
+
+            string[] datas = rowData[i].Split(",");
+
+            WeaponData data;
+            data.Key = int.Parse(datas[0]);
+            data.Name = datas[1];
+            data.PosX = float.Parse(datas[2]);
+            data.PosY = float.Parse(datas[3]);
+            data.PosZ = float.Parse(datas[4]);
+            data.RotX = float.Parse(datas[5]);
+            data.RotY = float.Parse(datas[6]);
+            data.RotZ = float.Parse(datas[7]);
+            data.PrefabPath = datas[8];
+
+            _weaponDatas.Add(data.Key, data);
         }
     }
 
@@ -132,31 +184,29 @@ public class DataManager
         //}
     }
 
-    public void LoadWeaponData()
+    public void LoadSkillData()
     {
-        //TextAsset textAsset = Resources.Load<TextAsset>("Tables/CatTable");
+        TextAsset textAsset = Resources.Load<TextAsset>("Tables/SkillTable");
 
-        //string text = textAsset.text;
-        //
-        //string[] rowData = text.Split("\r\n");
-        //
-        //for (int i = 1; i < rowData.Length; i++)
-        //{
-        //    if (rowData[i].Length == 0)
-        //        break;
-        //
-        //    string[] datas = rowData[i].Split(",");
-        //
-        //    CharacterData data;
-        //    data.Key = int.Parse(datas[0]);
-        //    data.Name = datas[1];
-        //    data.Attack = float.Parse(datas[2]);
-        //    data.MaxHp = float.Parse(datas[3]);
-        //    data.Speed = float.Parse(datas[4]);
-        //    data.Range = float.Parse(datas[5]);
-        //
-        //    _characterDatas.Add(data.Key, data);
-        //}
+        string text = textAsset.text;
+        
+        string[] rowData = text.Split("\r\n");
+        
+        for (int i = 1; i < rowData.Length; i++)
+        {
+            if (rowData[i].Length == 0)
+                break;
+        
+            string[] datas = rowData[i].Split(",");
+        
+            SkillData data;
+            data.Key = int.Parse(datas[0]);
+            data.Name = datas[1];
+            data.AttackRatio = float.Parse(datas[2]);
+            data.SkillImagePath = datas[3];
+        
+            _skillDatas.Add(data.Key, data);
+        }
     }
 
     public void LoadUpgradeData()
