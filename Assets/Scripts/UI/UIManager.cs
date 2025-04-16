@@ -6,7 +6,9 @@ public class UIManager : MonoBehaviour
 {
     private bool _isFirstChoice = true;
     private int _selectedWeaponID;
+    
     private GameObject _choicePanel;
+    private GameObject _guiPanel;
 
     private static UIManager _instance;
     public static UIManager Instance
@@ -18,6 +20,7 @@ public class UIManager : MonoBehaviour
     {
         _instance = this;
         _choicePanel = transform.Find("ChoicePanel").gameObject;
+        _guiPanel = transform.Find("PlayerGUI").gameObject;
 
         GetComponentsInChildren<Card>(_cards);
         _choicePanel.SetActive(false);
@@ -41,6 +44,7 @@ public class UIManager : MonoBehaviour
             SetStatusCard();
         }
     }
+
     private void SetStatusCard()
     {
         HashSet<int> usedKeys = new HashSet<int>();
