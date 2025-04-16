@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    private UIManager _instance;
-    public UIManager Instance
+    private bool _isFirstChoice = true;
+    private int _selectedWeaponID;
+    private GameObject _choicePanel;
+
+    private static UIManager _instance;
+    public static UIManager Instance
         { get { return _instance; } }
 
     private List<Card> _cards = new List<Card>();
@@ -13,20 +17,52 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        _choicePanel = transform.Find("ChoicePanel").gameObject;
 
         GetComponentsInChildren<Card>(_cards);
+        _choicePanel.SetActive(false);
     }
 
     private void Start()
     {
-        SetWeaponCard();
     }
 
+    public void OpenChoiceUI()
+    {
+        _choicePanel.SetActive(true);
+      
+        if (_isFirstChoice)
+        {
+            SetWeaponCard();
+            _isFirstChoice = false;
+        }
+        else
+        {
+            SetStatusCard();
+        }
+    }
     private void SetStatusCard()
     {
-        foreach (Card card in _cards)
+        HashSet<int> usedKeys = new HashSet<int>();
+
+        for (int i = 0; i < _cards.Count; i++)
         {
-            card.SetStatusCardData(1001);
+            int randKey;
+            do
+            {
+                randKey = UnityEngine.Random.Range(1001, 1009); 
+            }
+            while (usedKeys.Contains(randKey));
+           
+            usedKeys.Add(randKey);
+            _cards[i].SetStatusCardData(randKey);
+
+            _cards[i].onClickStatusCard = () =>
+            {
+                GameManager.PlayerInstance.EnhancePlayerStatus(randKey);
+
+                _choicePanel.SetActive(false);
+            };
         }
     }
 
@@ -43,7 +79,17 @@ public class UIManager : MonoBehaviour
 
         for (int i = 0; i < _cards.Count; i++)
         {
-            _cards[i].SetWeaponCardData(weaponID[i]);
+            int id = weaponID[i];
+            _cards[i].SetWeaponCardData(id);
+
+            _cards[i].onClickWeaponCard = () =>
+            {
+                _selectedWeaponID = id;
+          
+                GameManager.Instance.SetPlayerWeapon();
+
+                _choicePanel.SetActive(false);
+            };
         }
     }
 }

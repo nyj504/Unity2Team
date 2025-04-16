@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using TMPro;
 using Unity.VisualScripting;
@@ -13,6 +14,9 @@ public class Card : MonoBehaviour
     private TextMeshProUGUI _descText;
     private UpgradeData _upgradeData;
 
+    public Action onClickWeaponCard;
+    public Action onClickStatusCard;
+
     private void Awake()
     {
         _cardProfile = GetComponent<Image>();
@@ -20,6 +24,16 @@ public class Card : MonoBehaviour
 
         _nameText = transform.Find("Name").GetComponent<TextMeshProUGUI>();
         _descText = transform.Find("Description").GetComponent<TextMeshProUGUI>();
+
+        GetComponent<Button>().onClick.AddListener(() => 
+        {
+            onClickWeaponCard?.Invoke();
+        });
+
+        GetComponent<Button>().onClick.AddListener(() =>
+        {
+            onClickStatusCard?.Invoke();
+        });
     }
     public void SetStatusCardData(int key)
     {

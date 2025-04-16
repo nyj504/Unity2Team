@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
         get { return _instance; }
     }
 
-    public GameObject _playerInstance { get; private set; }
+    public static Player PlayerInstance { get; private set; }
 
     private void Awake()
     {
@@ -26,7 +26,12 @@ public class GameManager : MonoBehaviour
         if (prefab != null)
         {
             Vector3 spawnPos = Vector3.zero;
-            _playerInstance = Instantiate(prefab, spawnPos, Quaternion.identity);
+            PlayerInstance = Instantiate(prefab, spawnPos, Quaternion.identity).GetComponent<Player>();
         }
+    }
+
+    public void SetPlayerWeapon()
+    {
+        
     }
 }

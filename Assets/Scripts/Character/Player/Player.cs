@@ -16,7 +16,8 @@ public class Player : MonoBehaviour
     private State _curState;
 
     private CharacterData _characterData;
-    private float curHp;
+    private float _curHp;
+    private float _life;
 
     private bool _isMoving;
     private Vector3 _velocity;
@@ -38,7 +39,10 @@ public class Player : MonoBehaviour
         UpdateAnimator();
 
         if (Input.GetKeyDown(KeyCode.F1))
+        {
+            UIManager.Instance.OpenChoiceUI();
             LoadPlayerData(_characterData.Key++);
+        }
     }
 
     private void Control()
@@ -95,5 +99,32 @@ public class Player : MonoBehaviour
     public void OnAnimationEnd()
     {
         _curState = State.Move;
+    }
+
+    public void EnhancePlayerStatus(int key)
+    {
+        UpgradeData upgradeData = DataManager.Instance.GetUpgradeData(key);
+        if (upgradeData.Type == "AttackPower")
+        {
+            //_characterData.AttackPower += upgradeData.Value; // 이거 있음?
+        }
+        else if (upgradeData.Type == "MoveSpeed")
+            _characterData.MoveSpeed += upgradeData.Value;
+        else if (upgradeData.Type == "AttackSpeed")
+            _characterData.AttackSpeed += upgradeData.Value;
+        //else if (upgradeData.Type == "Money")
+        //    _characterData.MoneyGain += upgradeData.Value;
+        else if (upgradeData.Type == "MaxHP")
+        {
+            _characterData.MaxHp += upgradeData.Value;
+            _curHp += upgradeData.Value;
+        }
+        else if (upgradeData.Type == "ExtraLife")
+            _life += upgradeData.Value;
+        //else if (upgradeData.Type == "SkillArea")
+        //    _characterData.SkillArea += upgradeData.Value;
+        //else if (upgradeData.Type == "CritRate")
+        //    _characterData.Critical += upgradeData.Value;
+
     }
 }

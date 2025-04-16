@@ -11,7 +11,7 @@ public class TopViewMode : MonoBehaviour
 
     private void Start()
     {
-        _target = GameManager.Instance._playerInstance.transform;
+        _target = GameManager.PlayerInstance.transform;
     }
     private void Update()
     {
