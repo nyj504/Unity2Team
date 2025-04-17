@@ -1,5 +1,5 @@
-key,name,value
-1,하트,100
-2,마법 쉴드,200
-3,골드바,5
-4,자석,0
+key,name,particlePath,value
+1,하트,healing,100
+2,마법 쉴드,MagicShield,200
+3,자석,Magnet,0
+4,골드바,NULL,5

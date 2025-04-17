@@ -53,6 +53,7 @@ public struct ItemData
 {
     public int Key;
     public string Name;
+    public string ParticlePath;
     public int ItemValue;
 }
 public class DataManager
@@ -273,7 +274,8 @@ public class DataManager
             ItemData data;
             data.Key = int.Parse(datas[0]);
             data.Name = datas[1];
-            data.ItemValue = int.Parse(datas[2]);
+            data.ParticlePath = datas[2];
+            data.ItemValue = int.Parse(datas[3]);
 
             _itemDatas.Add(data.Key, data);
         }

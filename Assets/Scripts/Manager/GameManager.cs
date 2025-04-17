@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.LoadCharacterData();
         DataManager.Instance.LoadWeaponData();
         DataManager.Instance.LoadSkillData();
+        DataManager.Instance.LoadItemData();
 
         SpawnPlayer();
     }
