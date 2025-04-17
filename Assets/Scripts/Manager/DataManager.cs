@@ -34,8 +34,10 @@ public struct SkillData
 {
     public int Key;
     public string Name;
+    public string Type;
     public float AttackRatio;
     public string SkillImagePath;
+    public string PrefabPath;
 }
 
 public struct UpgradeData
@@ -46,6 +48,12 @@ public struct UpgradeData
     public float Value;
     public string DescPrefix;
     public string DescSuffix;
+}
+public struct ItemData
+{
+    public int Key;
+    public string Name;
+    public int ItemValue;
 }
 public class DataManager
 {
@@ -94,6 +102,12 @@ public class DataManager
         get { return _upgradeDatas; }
     }
 
+    private Dictionary<int, ItemData> _itemDatas = new Dictionary<int, ItemData>();
+    public Dictionary<int, ItemData> ItemDatas
+    {
+        get { return _itemDatas; }
+    }
+
 
 
     public CharacterData GetCharacterData(int key) { return _characterDatas[key]; }
@@ -101,6 +115,7 @@ public class DataManager
     public MonsterData GetMonsterData(int key) { return _monsterDatas[key]; }
     public SkillData GetSkillData(int key) { return _skillDatas[key]; }
     public UpgradeData GetUpgradeData(int key) { return _upgradeDatas[key]; }
+    public ItemData GetItemData(int key) { return _itemDatas[key]; }
 
     public void LoadCharacterData()
     {
@@ -204,9 +219,11 @@ public class DataManager
             SkillData data;
             data.Key = int.Parse(datas[0]);
             data.Name = datas[1];
-            data.AttackRatio = float.Parse(datas[2]);
-            data.SkillImagePath = datas[3];
-        
+            data.Type = datas[2];
+            data.AttackRatio = float.Parse(datas[3]);
+            data.SkillImagePath = datas[4];
+            data.PrefabPath = datas[5];
+
             _skillDatas.Add(data.Key, data);
         }
     }
@@ -235,6 +252,30 @@ public class DataManager
             data.DescSuffix = datas[5];
         
             _upgradeDatas.Add(data.Key, data);
+        }
+    }
+
+    public void LoadItemData()
+    {
+        TextAsset textAsset = Resources.Load<TextAsset>("Tables/ItemTable");
+
+        string text = textAsset.text;
+
+        string[] rowData = text.Split("\r\n");
+
+        for (int i = 1; i < rowData.Length; i++)
+        {
+            if (rowData[i].Length == 0)
+                break;
+
+            string[] datas = rowData[i].Split(",");
+
+            ItemData data;
+            data.Key = int.Parse(datas[0]);
+            data.Name = datas[1];
+            data.ItemValue = int.Parse(datas[2]);
+
+            _itemDatas.Add(data.Key, data);
         }
     }
 }
