@@ -8,6 +8,8 @@ public class Item : MonoBehaviour
     private float _gainDistance = 0.5f;
 
     private GameObject _healingPrefab;
+    private GameObject _magnetPrefab;
+    private GameObject _sheildPrefab;
 
     private void Awake()
     {
@@ -20,6 +22,8 @@ public class Item : MonoBehaviour
             _player = GameManager.PlayerInstance.transform;
 
         _healingPrefab = Resources.Load<GameObject>("Prefabs/Item/Effects/healing");
+        _magnetPrefab = Resources.Load<GameObject>("Prefabs/Item/Effects/Magnet");
+        _sheildPrefab = Resources.Load<GameObject>("Prefabs/Item/Effects/MagicSheild");
 
         _startPos = transform.position;
     }
