@@ -103,6 +103,10 @@ public class Player : MonoBehaviour
         _velocity = Vector3.Lerp(_velocity, _targetVelocity, Time.deltaTime * 10f);
 
         transform.position += _velocity * Time.deltaTime;
+
+        Vector3 pos = transform.position;
+        pos.y = 0.0f;
+        transform.position = pos;
     }
     private void LoadPlayerData(int key)
     {

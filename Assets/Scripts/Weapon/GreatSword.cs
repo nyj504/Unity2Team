@@ -13,12 +13,12 @@ public class GreatSword : Weapon
     public override void UseQSkill()
     {
         Vector3 offset = new Vector3(0, 1.0f, 0);
-        PlayEffect(_qSkillPrefab, _player.transform.position + offset, _player.transform.forward);
+        PlayEffectAttachedToPlayer(_qSkillPrefab, _player.transform.position + offset);
     }
 
     public override void UseESkill()
     {
-        Vector3 offset = new Vector3(0, 1.0f, 0);
-        PlayEffect(_eSkillPrefab, _player.transform.position + offset, _player.transform.forward);
+        Vector3 offset = _player.transform.forward * 1.1f + Vector3.up * 1.0f;
+        PlayEffectAttachedToPlayer(_eSkillPrefab, _player.transform.position + offset);
     }
 }

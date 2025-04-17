@@ -31,13 +31,48 @@ public abstract class Weapon : MonoBehaviour
             _eSkillPrefab = Resources.Load<GameObject>(data.PrefabPath);
     }
 
-    protected void PlayEffect(GameObject effectPrefab, Vector3 position, Vector3 forward)
+    protected void PlayEffectAtPosition(GameObject effectPrefab, Vector3 position)
     {
         if (effectPrefab != null)
         {
-            Quaternion rotation = Quaternion.LookRotation(forward);
-            GameObject effect = Instantiate(effectPrefab, position, rotation, _player.transform);
+            Quaternion rotation = Quaternion.LookRotation(_player.transform.forward);
+            GameObject effect = Instantiate(effectPrefab, position, rotation);
+            ParticleSystem ps = effect.GetComponent<ParticleSystem>();
+
+            if (ps != null)
+            {
+                ParticleSystem.MainModule main = ps.main;
+                main.simulationSpeed = _player.GetPlayerData.AttackSpeed;
+            }
+
             Destroy(effect, 2.0f);
         }
+    }
+    protected void PlayEffectAttachedToPlayer(GameObject effectPrefab, Vector3 position)
+    {
+        if (effectPrefab != null)
+        {
+            Quaternion rotation = Quaternion.LookRotation(_player.transform.forward);
+            GameObject effect = Instantiate(effectPrefab, position, rotation, _player.transform);
+            ParticleSystem ps = effect.GetComponent<ParticleSystem>();
+
+            if (ps != null)
+            {
+                ParticleSystem.MainModule main = ps.main;
+                main.simulationSpeed = _player.GetPlayerData.AttackSpeed;
+            }
+
+            Destroy(effect, 2.0f);
+        }
+    }
+    protected Vector3 GetMouseWorldPosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane groundPlane = new Plane(Vector3.up, Vector3.zero); // y=0 평면 기준
+        if (groundPlane.Raycast(ray, out float enter))
+        {
+            return ray.GetPoint(enter);
+        }
+        return _player.transform.position; // 실패 시 플레이어 위치
     }
 }
