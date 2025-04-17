@@ -67,11 +67,13 @@ public class Monster : MonoBehaviour
             _isMoving = false;
 
             Vector3 direction = (_player.transform.position - transform.position).normalized;
-            transform.Translate(direction * _speed * Time.deltaTime);
+            transform.Translate(direction * _speed * Time.deltaTime, Space.World);
 
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-
+            if (direction != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            }
         }
     }
 

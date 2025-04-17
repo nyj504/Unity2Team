@@ -1,0 +1,4 @@
+Key,Name,AttackPower,MaxHp,MoveSpeed
+301,Bat,10,50,2
+302,Mushroom,5,30,2
+303,Golem,50,2000,5
