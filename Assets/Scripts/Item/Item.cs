@@ -21,6 +21,7 @@ public class Item : MonoBehaviour
         transform.Rotate(0.0f, 45.0f * Time.deltaTime, 0.0f);
 
         float floatY = Mathf.Sin(Time.time * 2.0f) * 0.25f;
+       
         transform.position = new Vector3(
             _startPos.x,
             _startPos.y + floatY,

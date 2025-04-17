@@ -29,9 +29,12 @@ public class ItemManager : MonoBehaviour
 
     private void Start()
     {
-        SpawnRandomItem(1);
-        SpawnRandomItem(2);
-        SpawnRandomItem(3);
+        for(int i = 0; i < 3; i++)
+        {
+            SpawnRandomItem(1);
+            SpawnRandomItem(2);
+            SpawnRandomItem(3);
+        }
     }
 
     private void Update()
