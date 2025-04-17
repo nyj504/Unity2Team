@@ -34,8 +34,10 @@ public struct SkillData
 {
     public int Key;
     public string Name;
+    public string Type;
     public float AttackRatio;
     public string SkillImagePath;
+    public string PrefabPath;
 }
 
 public struct UpgradeData
@@ -204,8 +206,10 @@ public class DataManager
             SkillData data;
             data.Key = int.Parse(datas[0]);
             data.Name = datas[1];
-            data.AttackRatio = float.Parse(datas[2]);
-            data.SkillImagePath = datas[3];
+            data.Type = datas[2];
+            data.AttackRatio = float.Parse(datas[3]);
+            data.SkillImagePath = datas[4];
+            data.PrefabPath = datas[5];
         
             _skillDatas.Add(data.Key, data);
         }

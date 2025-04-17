@@ -1,7 +1,7 @@
-Key,Name,AttackRatio,SkillImagePath
-201,MagicArrow,2,None
-202,Meteor,3,None
-203,WheelWind,1,None
-204,StoneSlash,1.5,None
-205,SlugBreaker,1.3,None
-206,ScatterStorm,2,None
+Key,Name,Type,AttackRatio,SkillImagePath,PrefabPath
+201,FireBall,Q,2,None,Prefabs/SkillEffect/FireBall
+202,Meteor,E,3,None,Prefabs/SkillEffect/Meteor
+203,WheelWind,Q,1,None,Prefabs/SkillEffect/WheelWind
+204,SwordSlash,E,1.5,None,Prefabs/SkillEffect/SwordSlash
+205,SlugBreaker,Q,1.3,None,Prefabs/SkillEffect/SlugBreaker
+206,ScatterStorm,E,2,None,Prefabs/SkillEffect/ScatterStorm

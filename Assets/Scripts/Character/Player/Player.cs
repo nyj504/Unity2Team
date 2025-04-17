@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +13,7 @@ public class Player : MonoBehaviour
     }
 
     private Animator _animator;
-
+   
     private State _curState;
 
     private CharacterData _characterData;
@@ -23,9 +24,10 @@ public class Player : MonoBehaviour
 
     private float _curHp;
     private float _life;
+    private float _baseMoveSpeed = -1f;
 
-    private bool _isMoving;
     private Vector3 _velocity;
+    private Vector3 _targetVelocity = Vector3.zero;
 
     [SerializeField] 
     private Transform _weaponSocket;
@@ -36,7 +38,7 @@ public class Player : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
 
-        _characterData.Key = DataManager.Instance.GetCharacterData(101).Key;
+        _characterData.Key = DataManager.Instance.CharacterDatas.Keys.First();
 
         LoadPlayerData(_characterData.Key);
 
@@ -44,65 +46,63 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        Control();
         Move();
+        Attack();
         UpdateAnimator();
 
         if (Input.GetKeyDown(KeyCode.F1))
         {
+            if (_characterData.Level == 5) return;
+
             //UIManager.Instance.OpenChoiceUI();
             LoadPlayerData(_characterData.Key++);
         }
-        //if (Input.GetKeyDown(KeyCode.Alpha1))
-        //{
-        //    SetWeapon(501);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha2))
-        //{
-        //    SetWeapon(502);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha3))
-        //{
-        //    SetWeapon(503);
-        //}
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SetWeapon(501);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SetWeapon(502);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SetWeapon(503);
+        }
     }
 
-    private void Control()
+    private void Attack()
     {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    _curState = State.BaseAttack;
-        //    _animator.Play("MagicAttack");
-        //}
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _animator.SetTrigger("QAttack");
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _animator.SetTrigger("EAttack");
+        }
     }
     private void Move()
     {
-        if (_curState != State.Move)
-        {
-            _velocity = Vector3.zero;
-            return;
-        }
+        Vector3 playerScreenPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 mouseScreenPos = Input.mousePosition;
+        Vector3 dir = mouseScreenPos - playerScreenPos;
+        float angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
+        if (Input.GetKey(KeyCode.W))
+        {
+            _targetVelocity = transform.forward * _characterData.MoveSpeed;
+        }
         else
         {
-            Vector3 playerScreenPos = Camera.main.WorldToScreenPoint(transform.position);
-            Vector3 mouseScreenPos = Input.mousePosition;
-            Vector3 dir = mouseScreenPos - playerScreenPos;
-            float angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            _targetVelocity = Vector3.zero;
+        }
 
-            if(Input.GetKey(KeyCode.W))
-            {
-                _isMoving = true;
-                _velocity = transform.forward * _characterData.MoveSpeed;
-                transform.position += _velocity * Time.deltaTime;
-            }
-            else
-            {
-                _isMoving = false;
-                _velocity = Vector3.zero;
-            }
-        }  
+        _velocity = Vector3.Lerp(_velocity, _targetVelocity, Time.deltaTime * 10f);
+
+        transform.position += _velocity * Time.deltaTime;
     }
     private void LoadPlayerData(int key)
     {
@@ -113,10 +113,18 @@ public class Player : MonoBehaviour
         _characterData.MaxHp = data.MaxHp;
         _characterData.MoveSpeed = data.MoveSpeed;
         _characterData.AttackSpeed = data.AttackSpeed;
+
+        if (_baseMoveSpeed < 0f)
+        {
+            _baseMoveSpeed = data.MoveSpeed;
+        }
+
+        _animator.speed = _characterData.MoveSpeed / _baseMoveSpeed;
     }
     private void UpdateAnimator()
     {
-        _animator.SetBool("IsMoving", _isMoving);
+        float speedNormalized = _velocity.magnitude / _characterData.MoveSpeed;
+        _animator.SetFloat("Speed", speedNormalized);
     }
     public void OnAnimationEnd()
     {
@@ -141,6 +149,16 @@ public class Player : MonoBehaviour
         }
 
         _animator.SetTrigger(weaponData.Name);
+    }
+
+    public void UseQSkill()
+    {
+        Weapon.Instance.UseQSkill();
+    }
+
+    public void UseESkill()
+    {
+        Weapon.Instance.UseESkill();
     }
 
     public void EnhancePlayerStatus(int key)
