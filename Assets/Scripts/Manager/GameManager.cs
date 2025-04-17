@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     }
     private void SpawnPlayer()
     {
-        GameObject prefab = Resources.Load<GameObject>("Prefabs/PicoChan");
+        GameObject prefab = Resources.Load<GameObject>("Prefabs/Player/PicoChan");
         if (prefab != null)
         {
             Vector3 spawnPos = Vector3.zero;
